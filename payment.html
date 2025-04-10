@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Methods</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        header {
+            position: relative;
+            width: 100%;
+            padding: 20px;
+            background: navy;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        nav ul li input {
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        nav ul li button {
+            padding: 5px 10px;
+            border: none;
+            background: white;
+            color: black;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .payment-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .payment-method {
+            width: 150px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            text-align: center;
+        }
+        .payment-method img {
+            width: 80px;
+            height: 50px;
+        }
+        .payment-method:hover {
+            background-color: #e0e0e0;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            width: 300px;
+            text-align: left;
+            z-index: 1000;
+        }
+        .popup input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        .popup button {
+            width: 100%;
+            padding: 10px;
+            background-color: navy;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .popup button:hover {
+            background-color: navy;
+        }
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 18px;
+            color: red;
+        }
+        .success-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #d4edda;
+            color: navy;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            width: 50%;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="g4presents.html">Home</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="payment.html">Payment</a></li>
+                <li><a href="subscription.html">Subscription</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li>
+                    <input type="text" placeholder="Search luxury services...">
+                    <button>Search</button>
+                </li>
+                <li>
+                    <a href="log in.html"><button class="">Log In</button></a>
+                    <a href="sign up.html"><button class="">Sign Up</button></a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+<h1>Select a Payment Method</h1>
+
+<div class="payment-container">
+    <div class="payment-method" onclick="showPopup('paypal')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+        <p>PayPal</p>
+    </div>
+    <div class="payment-method" onclick="showPopup('mastercard')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+        <p>Mastercard</p>
+    </div>
+    <div class="payment-method" onclick="showPopup('visa')">
+        <img src="https://logos-world.net/wp-content/uploads/2020/06/Visa-Logo-2006.png" alt="Visa">
+        <p>Visa</p>
+    </div>
+    <div class="payment-method" onclick="showPopup('credit')">
+        <img src="https://iodghana.org/wp-content/uploads/2023/06/Ecobank-logo.jpg" alt="Credit/Debit Card">
+        <p>Credit/Debit Card</p>
+    </div>
+    <div class="payment-method" onclick="showPopup('bank')">
+        <img src="https://fyei.fidelitybank.com.gh/images/fid.jpeg" alt="Bank Transfer">
+        <p>Bank Transfer</p>
+    </div>
+    <div class="payment-method" onclick="showPopup('momo')">
+        <img src="https://th.bing.com/th/id/OIP.TD2AzIHiJYC6SqCECDV9-QHaFQ?w=1024&h=728&rs=1&pid=ImgDetMain" alt="MTN Mobile Money">
+        <p>MTN Mobile Money</p>
+    </div>
+    <div class="payment-method" onclick="showPopup('momo')">
+        <img src="https://digitaleconomymag.com/wp-content/uploads/2024/05/TELE.jpg" alt="telecel Mobile Money">
+        <p>Telecel cash</p>
+    </div>
+    <div class="payment-method" onclick="showPopup('momo')">
+        <img src="https://th.bing.com/th/id/OIP.h9Da7-mBlG7Y3M4KcKutNAHaKk?rs=1&pid=ImgDetMain" alt="airteltigo Mobile Money">
+        <p>airteltigo cash</p>
+    </div>
+</div>
+
+<!-- Popup Payment Forms -->
+<div id="payment-popup" class="popup">
+    <span class="close-btn" onclick="closePopup()">✖</span>
+    <h3 id="payment-title"></h3>
+    <form id="payment-form"></form>
+</div>
+
+<div class="success-message" id="success-message">
+    <h3>Payment Successful!</h3>
+    <p>Your booking has been confirmed.</p>
+</div>
+
+<script>
+    const paymentForms = {
+        paypal: `
+            <input type="email" placeholder="PayPal Email" required>
+            <input type="text" placeholder="Account number"required>
+            <a href="confirmation.html"><button type="submit">Pay Now</button></a>
+        `,
+        mastercard: `
+            <input type="text" placeholder="Name on Card" required>
+            <input type="text" placeholder="Card Number" required>
+            <input type="month" required>
+            <input type="text" placeholder="CVV" required>
+            <a href=""><button type="submit">Pay Now</button></a>
+        `,
+        visa: `
+            <input type="text" placeholder="Name on Card" required>
+            <input type="text" placeholder="Card Number" required>
+            <input type="month" required>
+            <input type="text" placeholder="CVV" required>
+           <a href=""><button type="submit">Pay Now</button></a>
+        `,
+        credit: `
+            <input type="text" placeholder="Name on Card" required>
+            <input type="text" placeholder="Card Number" required>
+            <input type="month" required>
+            <input type="text" placeholder="CVV" required>
+          <a href=""><button type="submit">Pay Now</button></a>
+            
+        `,
+        bank: `
+            <input type="text" placeholder="Account Name" required>
+            <input type="text" placeholder="Account Number" required>
+            <input type="text" placeholder="Bank Name" required>
+            <a href=""><button type="submit">Pay Now</button></a>
+        `,
+        momo: `
+            <input type="text" placeholder="Mobile Money Number" required>
+            <a href="confirmation.html"><button type="confirmation.html">Pay Now</button></a>
+        `
+    };
+   
+    let selectedPayment = '';
+
+    function showPopup(method) {
+        selectedPayment = method;
+        document.getElementById('payment-title').textContent = `Pay with ${method.replace(/^(\w)/, c => c.toUpperCase())}`;
+        document.getElementById('payment-form').innerHTML = paymentForms[method];
+        document.getElementById('payment-popup').style.display = 'block';
+    }
+ // Inject the form markup
+ document.getElementById('payment-form').innerHTML = paymentForms[method];
+
+// Show the popup
+document.getElementById('payment-popup').style.display = 'block';
+
+// Attach form submit handler
+const dynamicForm = document.getElementById('dynamic-form');
+dynamicForm.addEventListener('submit', redirectToConfirmation);
+
+
+
+    function closePopup() {
+        document.getElementById('payment-popup').style.display = 'none';
+    }
+
+document.getElementById('payment-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+        closePopup();
+});
+
+
+function redirectToConfirmation(event) {
+        event.preventDefault(); // Prevent form's default submission
+        closePopup();
+
+        // Simulate payment processing
+        setTimeout(() => {
+            window.location.href = "confirmation.html";
+        }, 500);
+    }
+
+
+ 
+    
+ 
+    function goToconfirmation(e) {
+    e.preventDefault();
+    window.location.href = 'confirmation.html';
+  }
+    
+  
+
+
+</script>
+
+</body>
+</html>
